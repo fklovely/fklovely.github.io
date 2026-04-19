@@ -20,11 +20,9 @@ html.dark {
   --bg-gradient: 20, 20, 20, 0.85;
 }
 
-/* Hero 文字（站名、motto、名言）加强阴影，保证在亮/暗图上都清晰 */
+/* Hero 文字（站名、motto、名言）用纯光晕阴影——无偏移，避免重影 */
 .VPHome h1 .name,
 .VPHome h1 .motto,
 .VPHome .inspiring-wrapper h2 {
-  text-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.9),
-    0 0 20px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
 }
