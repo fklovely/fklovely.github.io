@@ -1,8 +1,8 @@
 ---
 layout: home
 blog:
-  name: '我的博客'
-  motto: '写点东西，记点什么'
-  inspiring: '不积跬步，无以至千里'
+  name: 'fklovely's blog'
+  motto: '多少事，从来急'
+  inspiring: '过去属于死神，未来属于你自己'
   logo: '/avatar.jpg'
 ---
