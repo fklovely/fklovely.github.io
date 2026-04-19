@@ -7,6 +7,11 @@
   background-attachment: fixed !important;
 }
 
+/* 夜晚模式把背景图调暗一半（改数字即可调档：0.3 更暗 / 0.6 更亮） */
+html.dark .VPHome::before {
+  filter: brightness(0.5);
+}
+
 /* 关掉主题自带的径向渐变遮罩（白/黑从中心盖住图） */
 .VPHome {
   background: transparent !important;
@@ -18,11 +23,4 @@
 }
 html.dark {
   --bg-gradient: 20, 20, 20, 0.85;
-}
-
-/* Hero 文字（站名、motto、名言）用纯光晕阴影——无偏移，避免重影 */
-.VPHome h1 .name,
-.VPHome h1 .motto,
-.VPHome .inspiring-wrapper h2 {
-  text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
 }
