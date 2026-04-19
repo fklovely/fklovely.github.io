@@ -4,9 +4,7 @@ import { getThemeConfig } from '@sugarat/theme/node'
 const blogTheme = await getThemeConfig({
   themeColor: 'vp-default',
   author: 'fklovely',
-  friend: [
-    { nickname: 'JavaGuide', des: 'Java 学习指南', avatar: '', url: 'https://javaguide.cn/' }
-  ],
+  friend: [],
   footer: {
     message: 'Powered by VitePress & @sugarat/theme',
     copyright: `© ${new Date().getFullYear()} fklovely`
