@@ -8,21 +8,18 @@ export default {
     if (typeof window === 'undefined') return
 
     // sugarat 主题用 useBrowserLocation 监听 URL 变化，但 vueuse 的这个 hook
-    // 只响应浏览器原生 popstate/hashchange 事件。VitePress 路由走的是
-    // pushState，URL 变了但不会触发 popstate → sugarat 的 tag 过滤没反应。
+    // 只响应浏览器原生 popstate/hashchange。VitePress 路由走的是 pushState，
+    // URL 变了但不触发 popstate → sugarat 的 tag 过滤无响应。
     //
-    // 给 history.pushState / replaceState 打个补丁：调用后额外派发一次
-    // popstate，让 useBrowserLocation 感知到 URL 变化，触发下游 watcher。
-    // 这样 SPA 内跳转 /?tag=xxx 时不用整页刷新，过滤也能正常工作。
-    const patch = (method: 'pushState' | 'replaceState') => {
-      const original = history[method]
-      history[method] = function (...args: any[]) {
-        const ret = (original as any).apply(this, args)
-        window.dispatchEvent(new PopStateEvent('popstate', { state: args[0] }))
-        return ret
-      }
+    // 只给 pushState 打补丁，调用后补发一次 popstate，其中 state 设为 null：
+    //  - useBrowserLocation 只看 URL，照常响应 → tag 过滤正常工作
+    //  - VitePress 自己的 popstate handler 见 state === null 会直接 return，
+    //    不会重复触发 loadPage。这样快速连点也不会堆积异步任务导致卡顿。
+    const originalPushState = history.pushState
+    history.pushState = function (...args: any[]) {
+      const ret = (originalPushState as any).apply(this, args)
+      window.dispatchEvent(new PopStateEvent('popstate', { state: null }))
+      return ret
     }
-    patch('pushState')
-    patch('replaceState')
   }
 }
