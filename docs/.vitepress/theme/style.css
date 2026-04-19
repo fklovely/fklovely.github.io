@@ -1,0 +1,8 @@
+/* 首页背景图 —— 铺满屏幕、固定不滚动 */
+.VPHome::before {
+  background-image: url('/bg.jpg') !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+  background-attachment: fixed !important;
+}
