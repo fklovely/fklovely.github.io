@@ -26,6 +26,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
+      { text: 'Python', link: '/?tag=Python' },
       { text: '生活随笔', link: '/?tag=生活随笔' },
       { text: 'Agent', link: '/?tag=Agent' },
       { text: '归档', link: '/archives' },
