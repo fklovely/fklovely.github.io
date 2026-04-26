@@ -14,21 +14,26 @@ const blogTheme = await getThemeConfig({
 export default defineConfig({
   extends: blogTheme,
   lang: 'zh-CN',
-  title: '我的博客',
+  title: 'fklovely',
   description: '个人技术博客',
   lastUpdated: true,
   cleanUrls: true,
 
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }]
+    ['link', { rel: 'icon', type: 'image/jpeg', href: '/avatar.jpg' }]
   ],
 
   themeConfig: {
+    logo: '/avatar.jpg',
+
     nav: [
       { text: '首页', link: '/' },
       { text: 'Python', link: '/?tag=Python' },
       { text: '生活随笔', link: '/?tag=生活随笔' },
-      { text: 'Agent', link: '/?tag=Agent' },
+      { text: 'Agent', items: [
+        { text: 'Claude Code', link: '/?tag=Claude Code' },
+        { text: 'Hermes', link: '/?tag=Hermes' }
+      ] },
       { text: '归档', link: '/archives' },
       { text: '关于', link: '/about' }
     ],

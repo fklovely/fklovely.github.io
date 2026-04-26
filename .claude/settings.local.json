@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export PATH=\"/c/Program Files/GitHub CLI:$PATH\")",
+      "Bash(gh run *)",
+      "Bash(curl -sS -o /dev/null -w \"avatar.jpg %{http_code}\\\\n\" https://fklovely.github.io/avatar.jpg)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
+    ]
+  }
+}
