@@ -5,6 +5,7 @@ const blogTheme = await getThemeConfig({
   themeColor: 'vp-default',
   author: 'fklovely',
   friend: [],
+  darkTransition: false,
   footer: {
     message: 'Powered by VitePress & @sugarat/theme',
     copyright: `© ${new Date().getFullYear()} fklovely`
@@ -18,6 +19,12 @@ export default defineConfig({
   description: '个人技术博客',
   lastUpdated: true,
   cleanUrls: true,
+  markdown: {
+    theme: {
+      light: 'github-light',
+      dark: 'github-light'
+    }
+  },
 
   head: [
     ['link', { rel: 'icon', type: 'image/jpeg', href: '/avatar.jpg' }]
@@ -32,6 +39,7 @@ export default defineConfig({
       { text: '生活随笔', link: '/?tag=生活随笔' },
       { text: 'Agent', items: [
         { text: 'Claude Code', link: '/?tag=Claude Code' },
+        { text: 'Generic', link: '/?tag=Generic' },
         { text: 'Hermes', link: '/?tag=Hermes' }
       ] },
       { text: '归档', link: '/archives' },
