@@ -6,6 +6,22 @@ const blogTheme = await getThemeConfig({
   author: 'fklovely',
   friend: [],
   darkTransition: false,
+  // 评论系统：Giscus（基于 GitHub Discussions，无需后端）。
+  // repo/repoId/category/categoryId 均为公开信息（GitHub GraphQL node ID），可安全提交。
+  // 主题会自动激活 vitepress-plugin-giscus 并把评论组件注入到文章底部（doc-after），无需改 layout。
+  comment: {
+    type: 'giscus',
+    options: {
+      repo: 'fklovely/fklovely.github.io',
+      repoId: 'R_kgDOSGEU0g',
+      category: 'Announcements',
+      categoryId: 'DIC_kwDOSGEU0s4C-jul',
+      mapping: 'pathname',
+      inputPosition: 'top',
+      lang: 'zh-CN'
+    },
+    mobileMinify: true
+  },
   footer: {
     message: 'Powered by VitePress & @sugarat/theme',
     copyright: `© ${new Date().getFullYear()} fklovely`
