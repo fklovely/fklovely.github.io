@@ -79,3 +79,16 @@ html.dark {
   right: 10px;
   border-radius: 6px;
 }
+
+/* 文章信息栏图标（作者/时间/字数/标签）在 Mac Safari 上不显示的修复。
+   主题把这些图标做成内联 <svg>，但只给了 viewBox、没写 width/height，
+   尺寸全靠父级 <i class="icon"> 的 1em。Chrome/Edge（你的 Windows）会把
+   无显式尺寸的 svg 撑满父容器，Safari（你的 Mac）不会 —— 它按 svg 自身
+   的固有尺寸（0）来算 flex 子项大小，图标就塌成 0 看不见了。
+   显式给图标 svg 一个 1em 尺寸即可跨浏览器一致。 */
+.meta-des .icon svg,
+.new-line-meta-des .icon svg,
+.doc-analyze .icon svg {
+  width: 1em;
+  height: 1em;
+}
