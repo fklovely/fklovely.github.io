@@ -92,3 +92,8 @@ html.dark {
   width: 1em;
   height: 1em;
 }
+
+/* 让“瞬间”作为独立入口在首页导航中保持品牌蓝色。 */
+.nav-moments-emphasis {
+  color: var(--vp-c-brand-1);
+}
