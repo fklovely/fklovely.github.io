@@ -6,6 +6,10 @@ const blogTheme = await getThemeConfig({
   author: 'fklovely',
   friend: [],
   darkTransition: false,
+  // 文章页左侧“相关文章”栏：默认标题自带一个 emoji 图标，这里改成纯文字。
+  recommend: {
+    title: '相关文章'
+  },
   // 评论系统：Giscus（基于 GitHub Discussions，无需后端）。
   // repo/repoId/category/categoryId 均为公开信息（GitHub GraphQL node ID），可安全提交。
   // 主题会自动激活 vitepress-plugin-giscus 并把评论组件注入到文章底部（doc-after），无需改 layout。
@@ -36,9 +40,10 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   markdown: {
+    // 浅色用 one-light、深色用 one-dark-pro，深色模式下代码不再是刺眼的浅底
     theme: {
-      light: 'github-light',
-      dark: 'github-light'
+      light: 'one-light',
+      dark: 'one-dark-pro'
     }
   },
 

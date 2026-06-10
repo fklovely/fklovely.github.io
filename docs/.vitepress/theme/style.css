@@ -126,49 +126,114 @@ html.dark {
   --bg-gradient: 20, 20, 20, 0.85;
 }
 
-/* 代码块：用浅蓝面板替换默认灰底 */
-:root,
+/* ============================================================
+   代码块：编辑器窗口风格
+   顶部 36px 标题条（mac 红黄绿圆点 + 语言标签 + 复制按钮），
+   配色跟随 one-light / one-dark-pro 语法主题
+   ============================================================ */
+:root {
+  --vp-code-block-bg: #fafafa;
+  --vp-code-block-divider-color: #e8e8ec;
+  --vp-code-lang-color: #a0a6b0;
+  --vp-code-line-highlight-color: rgba(142, 150, 170, 0.14);
+  --vp-code-line-number-color: #b6bcc8;
+  --vp-code-copy-code-border-color: #e2e2e8;
+  --vp-code-copy-code-bg: #f6f6f9;
+  --vp-code-copy-code-hover-border-color: #d0d0d8;
+  --vp-code-copy-code-hover-bg: #ffffff;
+  --vp-code-copy-code-active-text: #4b5563;
+  --vp-code-copy-copied-text-content: '已复制';
+}
+
 html.dark {
-  --vp-code-block-color: #1f2937;
-  --vp-code-block-bg: #eef7ff;
-  --vp-code-block-divider-color: #bfdbfe;
-  --vp-code-lang-color: #64748b;
-  --vp-code-line-highlight-color: #dbeafe;
-  --vp-code-line-number-color: #94a3b8;
-  --vp-code-copy-code-border-color: #bfdbfe;
-  --vp-code-copy-code-bg: rgba(248, 251, 255, 0.92);
-  --vp-code-copy-code-hover-border-color: #93c5fd;
-  --vp-code-copy-code-hover-bg: #dbeafe;
-  --vp-code-copy-code-active-text: #1e3a8a;
+  --vp-code-block-bg: #282c34; /* one-dark-pro 的画布色 */
+  --vp-code-block-divider-color: #3b4048;
+  --vp-code-lang-color: #6b7280;
+  --vp-code-line-highlight-color: rgba(101, 117, 133, 0.2);
+  --vp-code-line-number-color: #4f5666;
+  --vp-code-copy-code-border-color: #3b4048;
+  --vp-code-copy-code-bg: #2f343e;
+  --vp-code-copy-code-hover-border-color: #4b5363;
+  --vp-code-copy-code-hover-bg: #353b46;
+  --vp-code-copy-code-active-text: #c3cad6;
 }
 
 .vp-doc div[class*='language-'] {
-  border: 1px solid rgba(96, 165, 250, 0.35);
-  box-shadow:
-    0 12px 30px rgba(59, 130, 246, 0.13),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  padding-top: 36px;
+  border-radius: 12px;
+  border: 1px solid var(--vp-code-block-divider-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+html.dark .vp-doc div[class*='language-'] {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* mac 风格红黄绿圆点（标题条只有 36px 高，pre 从 36px 之下才开始，互不重叠） */
+.vp-doc div[class*='language-']::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ff5f56;
+  box-shadow: 18px 0 0 #ffbd2e, 36px 0 0 #27c93f;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 标题条与代码区之间的分隔线 */
+.vp-doc div[class*='language-']::after {
+  content: "";
+  position: absolute;
+  top: 36px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--vp-code-block-divider-color);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .vp-doc [class*='language-'] pre {
-  padding: 22px 0;
+  padding: 18px 0 20px;
 }
 
 .vp-doc [class*='language-'] code {
   font-size: 14px;
 }
 
+/* 语言标签放在标题条右侧 */
 .vp-doc [class*='language-'] > span.lang {
-  top: 8px;
-  right: 14px;
-  font-size: 11px;
-  letter-spacing: 0;
+  top: 10px;
+  right: 16px;
+  font-size: 12px;
+  letter-spacing: 0.4px;
   text-transform: uppercase;
 }
 
+/* 复制按钮缩小到能融入 36px 标题条 */
 .vp-doc [class*='language-'] > button.copy {
-  top: 10px;
-  right: 10px;
+  top: 4px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
+  background-size: 14px;
+}
+
+/* “已复制”提示默认按 40px 大按钮设计，跟着缩小 */
+.vp-doc [class*='language-'] > button.copy.copied,
+.vp-doc [class*='language-'] > button.copy:hover.copied {
+  border-radius: 0 6px 6px 0;
+}
+
+.vp-doc [class*='language-'] > button.copy.copied::before,
+.vp-doc [class*='language-'] > button.copy:hover.copied::before {
+  height: 28px;
+  border-radius: 6px 0 0 6px;
 }
 
 /* 文章信息栏图标（作者/时间/字数/标签）在 Mac Safari 上不显示的修复。
@@ -187,4 +252,240 @@ html.dark {
 /* 让“瞬间”作为独立入口在首页导航中保持品牌蓝色。 */
 .nav-moments-emphasis {
   color: var(--vp-c-brand-1);
+}
+
+/* ============================================================
+   首页文章卡片美化（.blog-item 来自主题 BlogItem.vue 的 scoped 样式，
+   与其冲突的属性需要 !important 才能稳定覆盖）
+   ============================================================ */
+
+.blog-list-wrapper .blog-item {
+  padding: 20px 24px;
+  border-radius: 12px !important;
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+.blog-list-wrapper .blog-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--vp-c-brand-2);
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 45%, transparent);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1) !important;
+}
+
+html.dark .blog-list-wrapper .blog-item {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45) !important;
+}
+
+html.dark .blog-list-wrapper .blog-item:hover {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* 悬停时左缘淡入一条品牌色渐变条 */
+.blog-list-wrapper .blog-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--vp-c-brand-1), var(--vp-c-brand-3));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.blog-list-wrapper .blog-item:hover::before {
+  opacity: 1;
+}
+
+/* 悬停时标题跟随品牌色 */
+.blog-list-wrapper .blog-item .title {
+  transition: color 0.25s ease;
+}
+
+.blog-list-wrapper .blog-item:hover .title {
+  color: var(--vp-c-brand-1);
+}
+
+/* 封面图：双层渲染画框，任意比例的图片都无需手工裁剪。
+   底层（::before）用模糊放大的图片自身铺满画框，
+   上层（::after）contain 完整显示原图，
+   比例不合时露出的边由模糊层补上（音乐播放器封面的常用手法）。 */
+.blog-list-wrapper .blog-item .cover-img {
+  position: relative;
+  overflow: hidden;
+  flex: none;
+  width: 150px;
+  height: 100px;
+  border-radius: 10px !important;
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.35s ease;
+}
+
+.blog-list-wrapper .blog-item .cover-img::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  background: inherit;
+  background-size: cover;
+  background-position: center;
+  filter: blur(10px) saturate(1.15);
+}
+
+.blog-list-wrapper .blog-item .cover-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.4s ease;
+}
+
+/* 悬停：画框不动，框内图片轻微放大，阴影加深 */
+.blog-list-wrapper .blog-item:hover .cover-img {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+}
+
+.blog-list-wrapper .blog-item:hover .cover-img::after {
+  transform: scale(1.06);
+}
+
+@media screen and (max-width: 500px) {
+  .blog-list-wrapper .blog-item .cover-img {
+    width: 104px;
+    height: 70px;
+  }
+}
+
+/* 之字形排版：偶数篇文章的封面翻到左侧，避免清一色右侧封面的视觉疲劳 */
+.blog-list-wrapper li:nth-child(even) .blog-item .info-container {
+  flex-direction: row-reverse;
+}
+
+.blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
+  margin-left: 0;
+  margin-right: 24px;
+}
+
+/* 悬停的品牌色侧条跟着镜像到右缘，与封面错开 */
+.blog-list-wrapper li:nth-child(even) .blog-item::before {
+  left: auto;
+  right: 0;
+}
+
+/* 元信息分隔符：生硬竖线 → 小圆点 */
+.blog-list-wrapper .blog-item .badge-list .split:not(:last-child)::after {
+  width: 3px !important;
+  height: 3px !important;
+  border-radius: 50%;
+  background-color: var(--vp-c-text-3) !important;
+  vertical-align: middle;
+  margin: 0 8px !important;
+}
+
+/* 标签（badge-list 第 3 个 span：作者、时间之后）做成品牌色胶囊 */
+.blog-list-wrapper .blog-item .badge-list .split:nth-child(3) {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--vp-c-brand-1);
+  background-color: var(--vp-c-brand-soft);
+}
+
+/* 首页右侧信息卡与文章卡片保持一致的圆角和描边 */
+.blog-info-wrapper .card {
+  border-radius: 12px !important;
+  border: 1px solid var(--vp-c-divider);
+}
+
+/* ============================================================
+   文章页左侧“相关文章”栏美化（.recommend 来自 BlogRecommendArticle.vue，
+   默认是贴在侧栏上的裸列表，这里整体卡片化）
+   ============================================================ */
+
+.VPSidebar .sidebar .recommend {
+  padding: 14px 12px 10px;
+  border-radius: 12px;
+  background-color: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+html.dark .VPSidebar .sidebar .recommend {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* 头部：标题加重，与列表之间用虚线分隔 */
+.VPSidebar .recommend .card-header {
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--vp-c-divider);
+}
+
+.VPSidebar .recommend .card-header .title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.VPSidebar .recommend .recommend-container {
+  padding: 0;
+}
+
+/* 列表项：圆角悬停高亮 */
+.VPSidebar .recommend .recommend-container li {
+  align-items: flex-start;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background-color 0.25s ease;
+}
+
+.VPSidebar .recommend .recommend-container li:hover {
+  background-color: var(--vp-c-default-soft);
+}
+
+/* 当前正在阅读的文章：品牌色软底高亮 */
+.VPSidebar .recommend .recommend-container li:has(.title.current) {
+  background-color: var(--vp-c-brand-soft);
+}
+
+/* 序号 → 圆角小徽章 */
+.VPSidebar .recommend .recommend-container li .num {
+  flex: none;
+  width: 20px !important;
+  height: 20px !important;
+  line-height: 20px !important;
+  margin: 4px 10px 0 0 !important;
+  border-radius: 6px;
+  font-size: 11px !important;
+  font-weight: 600;
+  background-color: var(--vp-c-default-soft);
+  color: var(--vp-c-text-2) !important;
+}
+
+/* 前三名给品牌色，做出热榜层次 */
+.VPSidebar .recommend .recommend-container li:nth-child(1) .num {
+  background-color: var(--vp-c-brand-1);
+  color: #fff !important;
+}
+
+.VPSidebar .recommend .recommend-container li:nth-child(2) .num {
+  background-color: var(--vp-c-brand-2);
+  color: #fff !important;
+}
+
+.VPSidebar .recommend .recommend-container li:nth-child(3) .num {
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1) !important;
+}
+
+/* 日期更小更淡，与标题拉开层次 */
+.VPSidebar .recommend .recommend-container li .suffix {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--vp-c-text-3);
 }
