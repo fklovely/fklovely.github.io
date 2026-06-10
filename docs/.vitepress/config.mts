@@ -48,7 +48,13 @@ export default defineConfig({
   },
 
   head: [
-    ['link', { rel: 'icon', type: 'image/jpeg', href: '/avatar.jpg' }]
+    ['link', { rel: 'icon', type: 'image/jpeg', href: '/avatar.jpg' }],
+    // 杂志风标题衬线字体：Noto Serif SC（思源宋体）。
+    // 走 loli.net 的 Google Fonts 国内镜像，按 unicode-range 分包按需加载，
+    // display=swap，加载失败时回退系统宋体，不阻塞渲染。
+    ['link', { rel: 'preconnect', href: 'https://fonts.loli.net' }],
+    ['link', { rel: 'preconnect', href: 'https://gstatic.loli.net', crossorigin: '' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@600;700&display=swap' }]
   ],
 
   themeConfig: {

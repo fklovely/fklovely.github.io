@@ -255,52 +255,94 @@ html.dark .vp-doc div[class*='language-'] {
 }
 
 /* ============================================================
-   首页文章卡片美化（.blog-item 来自主题 BlogItem.vue 的 scoped 样式，
-   与其冲突的属性需要 !important 才能稳定覆盖）
+   首页文章卡片：杂志编辑风
+   信息区用 flex order 重排为「眉头(日期·分类) → 衬线大标题 →
+   描述 → 阅读全文」，封面贴边出血、左右交错。
+   .blog-item 来自主题 BlogItem.vue 的 scoped 样式，
+   与其冲突的属性需要 !important 才能稳定覆盖。
    ============================================================ */
 
 .blog-list-wrapper .blog-item {
-  padding: 20px 24px;
-  border-radius: 12px !important;
-  border: 1px solid var(--vp-c-divider);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+  margin-bottom: 30px !important;
+  padding: 28px 32px;
+  border-radius: 10px !important;
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  box-shadow: 0 10px 34px rgba(31, 41, 55, 0.1) !important;
 }
 
 .blog-list-wrapper .blog-item:hover {
-  transform: translateY(-3px);
-  border-color: var(--vp-c-brand-2);
-  border-color: color-mix(in srgb, var(--vp-c-brand-1) 45%, transparent);
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 18px 50px rgba(31, 41, 55, 0.16) !important;
 }
 
 html.dark .blog-list-wrapper .blog-item {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45) !important;
+  background-color: rgba(24, 24, 28, 0.94) !important;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45) !important;
 }
 
 html.dark .blog-list-wrapper .blog-item:hover {
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.65) !important;
 }
 
-/* 悬停时左缘淡入一条品牌色渐变条 */
-.blog-list-wrapper .blog-item::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 4px;
-  background: linear-gradient(180deg, var(--vp-c-brand-1), var(--vp-c-brand-3));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+/* 信息区改纵排，用 order 把眉头提到标题上方，结尾补“阅读全文”引导。
+   ::after 是 flex 容器的伪元素，会作为 flex 子项参与排序。 */
+.blog-list-wrapper .blog-item .info-part {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.blog-list-wrapper .blog-item:hover::before {
-  opacity: 1;
+.blog-list-wrapper .blog-item .info-part .badge-list {
+  order: 1;
+  margin: 0;
 }
 
-/* 悬停时标题跟随品牌色 */
+.blog-list-wrapper .blog-item .info-part .title {
+  order: 2;
+}
+
+.blog-list-wrapper .blog-item .info-part .description {
+  order: 3;
+}
+
+.blog-list-wrapper .blog-item .info-part::after {
+  content: "阅读全文 →";
+  order: 4;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+}
+
+/* 眉头：日期与分类做成品牌色小字，大写并拉开字距 */
+.blog-list-wrapper .blog-item .badge-list {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--vp-c-brand-1);
+}
+
+/* 第一个 span 是作者名，每篇都相同没有信息量，从眉头里去掉 */
+.blog-list-wrapper .blog-item .badge-list .split:first-child {
+  display: none;
+}
+
+.blog-list-wrapper .blog-item .badge-list .split:not(:last-child)::after {
+  width: 3px !important;
+  height: 3px !important;
+  border-radius: 50%;
+  background-color: var(--vp-c-brand-2) !important;
+  vertical-align: middle;
+  margin: 0 9px !important;
+}
+
+/* 衬线大标题 */
 .blog-list-wrapper .blog-item .title {
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'STZhongsong', SimSun, serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 12px 0 0;
   transition: color 0.25s ease;
 }
 
@@ -308,94 +350,75 @@ html.dark .blog-list-wrapper .blog-item:hover {
   color: var(--vp-c-brand-1);
 }
 
-/* 封面图：双层渲染画框，任意比例的图片都无需手工裁剪。
-   底层（::before）用模糊放大的图片自身铺满画框，
-   上层（::after）contain 完整显示原图，
-   比例不合时露出的边由模糊层补上（音乐播放器封面的常用手法）。 */
+/* 描述：行高放宽；scoped 固定的 48px 高度放不下衬线排版，放开为自适应 */
+.blog-list-wrapper .blog-item .description {
+  height: auto;
+  margin: 12px 0 0;
+  font-size: 14.5px;
+  line-height: 1.9;
+}
+
+/* 封面贴边出血：负 margin 顶满卡片边缘，竖向拉伸至卡片全高。
+   卡片自身 overflow:hidden，圆角由卡片裁切。 */
+.blog-list-wrapper .blog-item .info-container {
+  align-items: stretch;
+}
+
 .blog-list-wrapper .blog-item .cover-img {
-  position: relative;
-  overflow: hidden;
   flex: none;
-  width: 150px;
-  height: 100px;
-  border-radius: 10px !important;
-  border: 1px solid var(--vp-c-divider);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-  transition: box-shadow 0.35s ease;
-}
-
-.blog-list-wrapper .blog-item .cover-img::before {
-  content: "";
-  position: absolute;
-  inset: -12px;
-  background: inherit;
-  background-size: cover;
+  width: 218px;
+  height: auto;
+  margin: -28px -32px -28px 28px;
+  border-radius: 0 !important;
+  background-size: cover !important;
   background-position: center;
-  filter: blur(10px) saturate(1.15);
-}
-
-.blog-list-wrapper .blog-item .cover-img::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
   transition: transform 0.4s ease;
 }
 
-/* 悬停：画框不动，框内图片轻微放大，阴影加深 */
 .blog-list-wrapper .blog-item:hover .cover-img {
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+  transform: scale(1.03);
 }
 
-.blog-list-wrapper .blog-item:hover .cover-img::after {
-  transform: scale(1.06);
-}
-
-@media screen and (max-width: 500px) {
-  .blog-list-wrapper .blog-item .cover-img {
-    width: 104px;
-    height: 70px;
-  }
-}
-
-/* 之字形排版：偶数篇文章的封面翻到左侧，避免清一色右侧封面的视觉疲劳 */
+/* 之字形排版：偶数篇封面翻到左侧，避免清一色右侧的视觉疲劳 */
 .blog-list-wrapper li:nth-child(even) .blog-item .info-container {
   flex-direction: row-reverse;
 }
 
 .blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
-  margin-left: 0;
-  margin-right: 24px;
+  margin: -28px 28px -28px -32px;
 }
 
-/* 悬停的品牌色侧条跟着镜像到右缘，与封面错开 */
-.blog-list-wrapper li:nth-child(even) .blog-item::before {
-  left: auto;
-  right: 0;
-}
+/* 移动端：出血改回小尺寸圆角缩略图，眉头移到卡片最上方 */
+@media screen and (max-width: 500px) {
+  .blog-list-wrapper .blog-item {
+    padding: 22px 20px;
+  }
 
-/* 元信息分隔符：生硬竖线 → 小圆点 */
-.blog-list-wrapper .blog-item .badge-list .split:not(:last-child)::after {
-  width: 3px !important;
-  height: 3px !important;
-  border-radius: 50%;
-  background-color: var(--vp-c-text-3) !important;
-  vertical-align: middle;
-  margin: 0 8px !important;
-}
+  .blog-list-wrapper .blog-item .info-container {
+    align-items: center;
+  }
 
-/* 标签（badge-list 第 3 个 span：作者、时间之后）做成品牌色胶囊 */
-.blog-list-wrapper .blog-item .badge-list .split:nth-child(3) {
-  display: inline-block;
-  padding: 2px 10px;
-  border-radius: 9999px;
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--vp-c-brand-1);
-  background-color: var(--vp-c-brand-soft);
+  .blog-list-wrapper .blog-item .cover-img,
+  .blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
+    width: 104px;
+    height: 70px;
+    margin: 0 0 0 14px;
+    border-radius: 8px !important;
+  }
+
+  .blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
+    margin: 0 14px 0 0;
+  }
+
+  .blog-list-wrapper .blog-item .badge-list.mobile-visible {
+    order: -1;
+    margin: 0 0 10px;
+  }
+
+  .blog-list-wrapper .blog-item .title {
+    font-size: 19px;
+    margin: 0 0 4px;
+  }
 }
 
 /* 首页右侧信息卡与文章卡片保持一致的圆角和描边 */
