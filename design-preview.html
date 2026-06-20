@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文章栏设计方案预览</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@600;700&display=swap">
+<style>
+  :root {
+    --brand: #3451b2;
+    --brand-2: #3a5ccc;
+    --text-1: #3c3c43;
+    --text-2: rgba(60, 60, 67, 0.78);
+    --text-3: rgba(60, 60, 67, 0.56);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", sans-serif;
+    background: #e8eaed;
+    color: var(--text-1);
+  }
+  .scheme-label {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px 16px;
+  }
+  .scheme-label h2 {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .scheme-label .chip {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--brand);
+    border-radius: 999px;
+    padding: 3px 12px;
+  }
+  .scheme-label p { margin-top: 6px; font-size: 14px; color: var(--text-3); }
+  .stage {
+    background-image: url('docs/public/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 48px 20px 56px;
+  }
+  .col { max-width: 760px; margin: 0 auto; }
+
+  /* ---------- 公共：封面画框（双层模糊补边，与现网一致的手法） ---------- */
+  .frame {
+    position: relative;
+    overflow: hidden;
+    flex: none;
+    width: 150px;
+    height: 100px;
+    border-radius: 10px;
+  }
+  .frame::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    background: inherit;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px) saturate(1.15);
+  }
+  .frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform 0.4s ease;
+  }
+  a { text-decoration: none; color: inherit; cursor: pointer; }
+
+  /* ============ 方案 A：玻璃一体面板 ============ */
+  .va-panel {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(24px) saturate(1.5);
+    -webkit-backdrop-filter: blur(24px) saturate(1.5);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 20px;
+    box-shadow: 0 18px 50px rgba(31, 41, 55, 0.12);
+    overflow: hidden;
+  }
+  .va-row {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    padding: 26px 30px;
+    transition: background-color 0.3s ease;
+  }
+  .va-row + .va-row { border-top: 1px solid rgba(60, 60, 67, 0.1); }
+  .va-row:hover { background: rgba(255, 255, 255, 0.55); }
+  .va-row.rev { flex-direction: row-reverse; }
+  .va-body { flex: 1; min-width: 0; }
+  .va-title { font-size: 17px; font-weight: 600; transition: color 0.25s; }
+  .va-row:hover .va-title { color: var(--brand); }
+  .va-desc {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .va-meta { margin-top: 10px; font-size: 12.5px; color: var(--text-3); }
+  .va-meta .tag { color: var(--brand); }
+  .va-row:hover .frame::after { transform: scale(1.05); }
+
+  /* ============ 方案 B：轻盈软卡片 ============ */
+  .vb-card {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 16px;
+    padding: 26px 30px;
+    box-shadow: 0 6px 24px rgba(31, 41, 55, 0.07);
+    transition: box-shadow 0.35s ease;
+  }
+  .vb-card + .vb-card { margin-top: 26px; }
+  .vb-card:hover { box-shadow: 0 14px 44px rgba(31, 41, 55, 0.13); }
+  .vb-card.rev { flex-direction: row-reverse; }
+  .vb-body { flex: 1; min-width: 0; }
+  .vb-title { font-size: 17.5px; font-weight: 600; letter-spacing: 0.01em; transition: color 0.25s; }
+  .vb-card:hover .vb-title { color: var(--brand); }
+  .vb-desc {
+    margin-top: 9px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--text-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .vb-meta { margin-top: 12px; font-size: 12.5px; color: var(--text-3); }
+  .vb-meta .tag { color: var(--brand); }
+  .vb-card .frame { box-shadow: 0 4px 14px rgba(31, 41, 55, 0.12); }
+  .vb-card:hover .frame::after { transform: scale(1.05); }
+
+  /* ============ 方案 C：杂志编辑风 ============ */
+  .vc-card {
+    display: flex;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 10px;
+    box-shadow: 0 10px 34px rgba(31, 41, 55, 0.1);
+    transition: box-shadow 0.35s ease;
+  }
+  .vc-card + .vc-card { margin-top: 30px; }
+  .vc-card:hover { box-shadow: 0 18px 50px rgba(31, 41, 55, 0.16); }
+  .vc-card.rev { flex-direction: row-reverse; }
+  .vc-body { flex: 1; min-width: 0; padding: 30px 34px; }
+  .vc-kicker {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .vc-title {
+    margin-top: 12px;
+    font-family: "Noto Serif SC", "Source Han Serif SC", "STZhongsong", "SimSun", serif;
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.45;
+    transition: color 0.25s;
+  }
+  .vc-card:hover .vc-title { color: var(--brand); }
+  .vc-desc {
+    margin-top: 12px;
+    font-size: 14.5px;
+    line-height: 1.9;
+    color: var(--text-2);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .vc-more {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand);
+  }
+  .vc-cover {
+    flex: none;
+    width: 218px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.4s ease;
+  }
+  .vc-card:hover .vc-cover { transform: scale(1.03); }
+  .vc-meta-bottom { margin-top: 14px; font-size: 12.5px; color: var(--text-3); }
+
+  .footer-note {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 36px 20px 60px;
+    font-size: 14px;
+    color: var(--text-3);
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== 方案 A ==================== -->
+<div class="scheme-label">
+  <h2><span class="chip">方案 A</span>玻璃一体面板</h2>
+  <p>取消独立卡片，整个列表是一块磨砂玻璃，文章间只有发丝线。留白最大，最“清新”，壁纸光感透出。</p>
+</div>
+<div class="stage">
+  <div class="col va-panel">
+    <a class="va-row">
+      <div class="va-body">
+        <div class="va-title">Claude Code 缓存机制</div>
+        <div class="va-desc">懒加载、上下文窗口与提示词缓存如何协作？从一次请求的生命周期说起，看看 5 分钟 TTL 背后的设计取舍。</div>
+        <div class="va-meta">fklovely · 2026/05/12 · <span class="tag">Agent</span></div>
+      </div>
+      <div class="frame" style="background-image:url('docs/public/covers/lianqu-1980.jpg')"></div>
+    </a>
+    <a class="va-row rev">
+      <div class="va-body">
+        <div class="va-title">恋曲1980</div>
+        <div class="va-desc">你曾经对我说，你永远爱着我。爱情这东西我明白，但永远是什么……</div>
+        <div class="va-meta">fklovely · 2026/04/23 · <span class="tag">生活随笔</span></div>
+      </div>
+      <div class="frame" style="background-image:url('docs/public/covers/lianqu-1980-full.png')"></div>
+    </a>
+    <a class="va-row">
+      <div class="va-body">
+        <div class="va-title">Python 上下文管理器</div>
+        <div class="va-desc">with 语句背后的协议：__enter__、__exit__，以及 contextlib 提供的优雅封装方式。</div>
+        <div class="va-meta">fklovely · 2026/03/02 · <span class="tag">Python</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ==================== 方案 B ==================== -->
+<div class="scheme-label">
+  <h2><span class="chip">方案 B</span>轻盈软卡片</h2>
+  <p>保留独立卡片但全面减重：无边框、极柔弥散阴影、16px 圆角、更大留白。悬停不上浮，只微微发光。最“优雅”也最稳妥。</p>
+</div>
+<div class="stage">
+  <div class="col">
+    <a class="vb-card">
+      <div class="vb-body">
+        <div class="vb-title">Claude Code 缓存机制</div>
+        <div class="vb-desc">懒加载、上下文窗口与提示词缓存如何协作？从一次请求的生命周期说起，看看 5 分钟 TTL 背后的设计取舍。</div>
+        <div class="vb-meta">fklovely · 2026/05/12 · <span class="tag">Agent</span></div>
+      </div>
+      <div class="frame" style="background-image:url('docs/public/covers/lianqu-1980.jpg')"></div>
+    </a>
+    <a class="vb-card rev">
+      <div class="vb-body">
+        <div class="vb-title">恋曲1980</div>
+        <div class="vb-desc">你曾经对我说，你永远爱着我。爱情这东西我明白，但永远是什么……</div>
+        <div class="vb-meta">fklovely · 2026/04/23 · <span class="tag">生活随笔</span></div>
+      </div>
+      <div class="frame" style="background-image:url('docs/public/covers/lianqu-1980-full.png')"></div>
+    </a>
+    <a class="vb-card">
+      <div class="vb-body">
+        <div class="vb-title">Python 上下文管理器</div>
+        <div class="vb-desc">with 语句背后的协议：__enter__、__exit__，以及 contextlib 提供的优雅封装方式。</div>
+        <div class="vb-meta">fklovely · 2026/03/02 · <span class="tag">Python</span></div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ==================== 方案 C ==================== -->
+<div class="scheme-label">
+  <h2><span class="chip">方案 C</span>杂志编辑风</h2>
+  <p>排版驱动：衬线大标题、眉头小字置顶、封面贴边出血、黑白灰为主只留一处品牌色。最有“刊物感”，改动也最大。</p>
+</div>
+<div class="stage">
+  <div class="col">
+    <a class="vc-card">
+      <div class="vc-body">
+        <div class="vc-kicker">Agent · 2026/05/12</div>
+        <div class="vc-title">Claude Code 缓存机制</div>
+        <div class="vc-desc">懒加载、上下文窗口与提示词缓存如何协作？从一次请求的生命周期说起，看看 5 分钟 TTL 背后的设计取舍。</div>
+        <span class="vc-more">阅读全文 →</span>
+      </div>
+      <div class="vc-cover" style="background-image:url('docs/public/covers/lianqu-1980.jpg')"></div>
+    </a>
+    <a class="vc-card rev">
+      <div class="vc-body">
+        <div class="vc-kicker">生活随笔 · 2026/04/23</div>
+        <div class="vc-title">恋曲1980</div>
+        <div class="vc-desc">你曾经对我说，你永远爱着我。爱情这东西我明白，但永远是什么……</div>
+        <span class="vc-more">阅读全文 →</span>
+      </div>
+      <div class="vc-cover" style="background-image:url('docs/public/covers/lianqu-1980-full.png')"></div>
+    </a>
+    <a class="vc-card">
+      <div class="vc-body">
+        <div class="vc-kicker">Python · 2026/03/02</div>
+        <div class="vc-title">Python 上下文管理器</div>
+        <div class="vc-desc">with 语句背后的协议：__enter__、__exit__，以及 contextlib 提供的优雅封装方式。</div>
+        <span class="vc-more">阅读全文 →</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="footer-note">
+  说明：三个分区都铺了博客真实的首页壁纸；封面用的是已有的两张图（方形专辑封面 + 宽幅截图），
+  第三篇文章故意不带封面，方便对比纯文字时的效果。悬停每篇文章可以感受交互细节。
+  方案 C 的衬线字体走的是国内可用的字体 CDN，如果标题没变成宋体说明网络没加载到，实装时会换更稳的方案。
+  选定方向后告诉我（A / B / C，或者“B 但要 A 的某个细节”这种混搭也行），我再落到博客真实代码里。
+</div>
+
+</body>
+</html>
