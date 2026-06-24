@@ -9,6 +9,7 @@ export default {
 
     const win = window as Window & {
       __blogRouteWallpaperCleanup?: () => void
+      __blogCoverCardCleanup?: () => void
       __blogPushStatePatched?: boolean
       __blogReplaceStatePatched?: boolean
     }
@@ -34,6 +35,44 @@ export default {
       window.removeEventListener('hashchange', updateRouteWallpaper)
     }
     updateRouteWallpaper()
+
+    function updateCoverCardLayout() {
+      const items = Array.from(document.querySelectorAll<HTMLElement>('.blog-list-wrapper .blog-item'))
+      let coverIndex = 0
+
+      for (const item of items) {
+        item.classList.remove('blog-cover-card', 'blog-cover-card--reverse')
+
+        const cover = item.querySelector<HTMLElement>('.cover-img')
+        if (!cover || getComputedStyle(cover).display === 'none') continue
+
+        item.classList.add('blog-cover-card')
+        item.classList.toggle('blog-cover-card--reverse', coverIndex % 2 === 0)
+        coverIndex += 1
+      }
+    }
+
+    let coverCardFrame = 0
+    function scheduleCoverCardLayout() {
+      cancelAnimationFrame(coverCardFrame)
+      coverCardFrame = requestAnimationFrame(() => {
+        updateCoverCardLayout()
+        requestAnimationFrame(updateCoverCardLayout)
+      })
+    }
+
+    win.__blogCoverCardCleanup?.()
+    const coverCardObserver = new MutationObserver(scheduleCoverCardLayout)
+    coverCardObserver.observe(document.body, { childList: true, subtree: true })
+    window.addEventListener('popstate', scheduleCoverCardLayout)
+    window.addEventListener('hashchange', scheduleCoverCardLayout)
+    win.__blogCoverCardCleanup = () => {
+      cancelAnimationFrame(coverCardFrame)
+      coverCardObserver.disconnect()
+      window.removeEventListener('popstate', scheduleCoverCardLayout)
+      window.removeEventListener('hashchange', scheduleCoverCardLayout)
+    }
+    scheduleCoverCardLayout()
 
     // sugarat 主题用 useBrowserLocation 监听 URL 变化，但 vueuse 的这个 hook
     // 只响应浏览器原生 popstate/hashchange。VitePress 路由走的是 pushState，
