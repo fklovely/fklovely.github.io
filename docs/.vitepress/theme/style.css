@@ -364,24 +364,11 @@ html.dark .blog-list-wrapper .blog-item:hover {
   align-items: stretch;
 }
 
-.blog-list-wrapper .blog-item.blog-cover-card {
-  padding: 32px 34px;
-}
-
-.blog-list-wrapper .blog-item.blog-cover-card .info-container {
-  gap: 34px;
-  min-height: 236px;
-}
-
-.blog-list-wrapper .blog-item.blog-cover-card .info-part {
-  justify-content: center;
-}
-
 .blog-list-wrapper .blog-item .cover-img {
   flex: none;
-  width: clamp(320px, 48%, 380px);
+  width: 218px;
   height: auto;
-  margin: -32px -34px -32px 0;
+  margin: -28px -32px -28px 28px;
   border-radius: 0 !important;
   background-size: cover !important;
   background-position: center;
@@ -392,13 +379,13 @@ html.dark .blog-list-wrapper .blog-item:hover {
   transform: scale(1.03);
 }
 
-/* 之字形排版：只按有封面的卡片交错，避免无封面文章打乱左右节奏。 */
-.blog-list-wrapper .blog-item.blog-cover-card--reverse .info-container {
+/* 之字形排版：偶数篇封面翻到左侧，避免清一色右侧的视觉疲劳 */
+.blog-list-wrapper li:nth-child(even) .blog-item .info-container {
   flex-direction: row-reverse;
 }
 
-.blog-list-wrapper .blog-item.blog-cover-card--reverse .cover-img {
-  margin: -32px 0 -32px -34px;
+.blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
+  margin: -28px 28px -28px -32px;
 }
 
 /* 移动端：出血改回小尺寸圆角缩略图，眉头移到卡片最上方 */
@@ -411,24 +398,15 @@ html.dark .blog-list-wrapper .blog-item:hover {
     align-items: center;
   }
 
-  .blog-list-wrapper .blog-item.blog-cover-card {
-    padding: 22px 20px;
-  }
-
-  .blog-list-wrapper .blog-item.blog-cover-card .info-container {
-    gap: 14px;
-    min-height: 92px;
-  }
-
   .blog-list-wrapper .blog-item .cover-img,
-  .blog-list-wrapper .blog-item.blog-cover-card--reverse .cover-img {
-    width: 136px;
-    height: 92px;
+  .blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
+    width: 104px;
+    height: 70px;
     margin: 0 0 0 14px;
     border-radius: 8px !important;
   }
 
-  .blog-list-wrapper .blog-item.blog-cover-card--reverse .cover-img {
+  .blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
     margin: 0 14px 0 0;
   }
 
