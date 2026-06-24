@@ -421,6 +421,17 @@ html.dark .blog-list-wrapper .blog-item:hover {
   }
 }
 
+/* 信息图封面需要完整展示，避免 cover 只裁出中间区域。 */
+.blog-list-wrapper .blog-item .cover-img[style*="mcp_vs_skills_cartoon_infographic"] {
+  background-size: contain !important;
+  background-repeat: no-repeat;
+  background-color: #f8fbff;
+}
+
+html.dark .blog-list-wrapper .blog-item .cover-img[style*="mcp_vs_skills_cartoon_infographic"] {
+  background-color: #111827;
+}
+
 /* 首页右侧信息卡与文章卡片保持一致的圆角和描边 */
 .blog-info-wrapper .card {
   border-radius: 12px !important;
