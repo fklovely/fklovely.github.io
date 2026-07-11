@@ -1,10 +1,8 @@
 import BlogTheme from '@sugarat/theme'
-import Layout from './Layout.vue'
 import './style.css'
 
 export default {
   ...BlogTheme,
-  Layout,
   enhanceApp(ctx: any) {
     BlogTheme.enhanceApp?.(ctx)
     if (typeof window === 'undefined') return
