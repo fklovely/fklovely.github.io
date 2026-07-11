@@ -64,6 +64,7 @@ export default defineConfig({
       { text: '首页', link: '/' },
       { text: 'Python', link: '/?tag=Python' },
       { text: 'Go', link: '/?tag=Go' },
+      { text: 'backend', link: '/backend', activeMatch: '^/backend(/|$)' },
       { text: '生活随笔', link: '/?tag=生活随笔' },
       { text: '<span class="nav-moments-emphasis">瞬间</span>', link: '/moments', activeMatch: '^/moments(/|$)' },
       { text: 'Agent', items: [
