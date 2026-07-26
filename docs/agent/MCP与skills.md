@@ -199,6 +199,10 @@ Prompts
 
 简单来说，Tools 负责“做事”，Resources 负责“给上下文”，Prompts 负责“提供一套可复用的提示流程”。
 
+### MCP与RPC
+
+RPC（Remote Procedure Call）是后端开发中的一个常见概念，它的核心思想是让你像调用本地函数一样调用另一台机器上的函数，如果没有RPC框架的话，你需要自己处理序列化、http请求等操作，十分的不方便，RPC的目的就是把这些大量的重复工作隐藏起来。上面提到过，MCP规定Client和Server之间采用JSON-RPC 2.0作为消息格式和通信模型，但MCP在JSON-RPC之上进一步定义了Agent场景需要的工具发现、工具调用、资源访问和上下文交换规范，因此JSON-RPC是MCP的通信基础，而MCP是面向大模型工具生态的上层协议。
+
 ## Skills
 
 相比 MCP，Skills 可以介绍的部分要少得多。通俗地讲，Skills 就是一套“做事情的流程”。是的，就是这么简单。
