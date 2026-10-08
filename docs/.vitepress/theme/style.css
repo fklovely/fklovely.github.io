@@ -452,6 +452,20 @@ body {
   overflow-wrap: anywhere;
 }
 
+/* 表格中的字段、路径保持完整；窄屏由表格自身横向滚动。 */
+.VPDoc .vp-doc table {
+  overflow-wrap: normal;
+}
+
+.VPDoc .vp-doc th,
+.VPDoc .vp-doc td code {
+  white-space: nowrap;
+}
+
+.VPDoc .vp-doc td {
+  min-width: 5em;
+}
+
 .VPDoc .vp-doc h1 {
   margin: 0;
   font-size: 32px;

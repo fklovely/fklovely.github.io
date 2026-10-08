@@ -8,16 +8,16 @@ description: 详解Claude Code的缓存机制
 # Claude Code缓存机制
 使用过claude code的人，应该都对“缓存”不陌生，毕竟命中的缓存按原价的10%计费，这个诱惑还是很大的。缓存机制相当重要，claude code的许多设计都围绕着提高缓存命中展开。
 ## 每次对话发送了什么？
-在讲缓存之前，我们需要先了解claude code中发送给api的信息由哪几部分组成，主要是三部分，System prompt、tools schema和messages。System prompt也就是系统提示词，tools schema包含工具的name、description、input_schema(工具参数的json schema)，messages就是消息集合，我们和claude code交互的信息就存在里面。
+在讲缓存之前，我们需要先了解claude code中发送给api的信息由哪几部分组成，主要是三部分，System prompt、tools schema和messages。System prompt也就是系统提示词，tools schema包含工具的`name`、`description`、`input_schema`(工具参数的json schema)，messages就是消息集合，我们和claude code交互的信息就存在里面。
 
-还有额外的两个概念---System Context和User Context。二者分别是System prompt和messages的组成部分，这是一个大的基调。System Context包含两 个字段,gitStatus和cacheBreaker,前者好理解，后者可以先不管。System Context在System prompt的末尾。
+还有额外的两个概念---System Context和User Context。二者分别是System prompt和messages的组成部分，这是一个大的基调。System Context包含两 个字段,`gitStatus`和`cacheBreaker`,前者好理解，后者可以先不管。System Context在System prompt的末尾。
 ```ts
 type SystemContext = {
     gitStatus: string
     cacheBreaker?: string
   }
 ```
-UserContext则是在messages的开头，它的内容就是CLAUDE.md和MEMORY.md的内容，也就是说是claude code的记忆的内容。这些内容被包装成`<system-reminder>`消息，放在messages的最开头。
+UserContext则是在messages的开头，它的内容就是`CLAUDE.md`和`MEMORY.md`的内容，也就是说是claude code的记忆的内容。这些内容被包装成`<system-reminder>`消息，放在messages的最开头。
 ```xml
 <system-reminder>
     gitStatus: ...

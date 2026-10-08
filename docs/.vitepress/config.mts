@@ -70,7 +70,7 @@ export default defineConfig({
       { text: 'Agent', items: [
         { text: 'Claude Code', link: '/?tag=Claude Code' },
         { text: 'Generic', link: '/?tag=Generic' },
-        { text: 'Hermes', link: '/?tag=Hermes' }
+        { text: 'Harness', link: '/?tag=Harness' }
       ] },
       { text: '归档', link: '/archives' },
       { text: '关于', link: '/about' }
