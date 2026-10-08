@@ -1,8 +1,12 @@
 import BlogTheme from '@sugarat/theme'
+// 仅打包屏幕版常规字体；unicode-range 让浏览器按页面用字加载。
+import 'lxgw-wenkai-screen-web/lxgwwenkaiscreen/result.css'
 import './style.css'
+import MyLayout from './MyLayout.vue'
 
 export default {
   ...BlogTheme,
+  Layout: MyLayout,
   enhanceApp(ctx: any) {
     BlogTheme.enhanceApp?.(ctx)
     if (typeof window === 'undefined') return
@@ -11,6 +15,7 @@ export default {
       __blogRouteWallpaperCleanup?: () => void
       __blogPushStatePatched?: boolean
       __blogReplaceStatePatched?: boolean
+      __blogScrollRevealSetup?: boolean
     }
 
     const lifeEssaysWallpaperClass = 'life-essays-wallpaper'
@@ -61,6 +66,50 @@ export default {
         return ret
       }
       win.__blogReplaceStatePatched = true
+    }
+
+    // 首页文章卡片滚动渐入：IntersectionObserver 负责触发入场，MutationObserver
+    // 负责接住标签筛选/分页后新渲染的卡片。尊重系统“减少动态效果”设置；
+    // 不支持时 html 不加 .js-reveal，CSS 侧完全不生效，内容直接可见。
+    if (!win.__blogScrollRevealSetup) {
+      const canAnimate =
+        'IntersectionObserver' in window
+        && window.matchMedia('(prefers-reduced-motion: no-preference)').matches
+
+      if (canAnimate) {
+        document.documentElement.classList.add('js-reveal')
+
+        const io = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('reveal-in')
+              io.unobserve(entry.target)
+            }
+          }
+        }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 })
+
+        const bind = (root: ParentNode) => {
+          root.querySelectorAll<HTMLElement>('.blog-item:not([data-reveal-bound])').forEach((el, i) => {
+            el.setAttribute('data-reveal-bound', '')
+            // 同批卡片错峰入场，避免整列同时弹
+            el.style.setProperty('--reveal-delay', `${Math.min(i, 6) * 70}ms`)
+            io.observe(el)
+          })
+        }
+
+        bind(document)
+        new MutationObserver((records) => {
+          for (const record of records) {
+            record.addedNodes.forEach((node) => {
+              if (node instanceof HTMLElement) {
+                // 新增节点自身就是 .blog-item 时，从父级重新扫描
+                bind(node.matches('.blog-item') ? (node.parentElement ?? node) : node)
+              }
+            })
+          }
+        }).observe(document.body, { childList: true, subtree: true })
+      }
+      win.__blogScrollRevealSetup = true
     }
   }
 }

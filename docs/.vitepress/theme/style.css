@@ -1,4 +1,4 @@
-/* 首页背景图 —— 铺满屏幕、固定不滚动 */
+/* 首页保留画作背景，用浅色遮罩降低纹理对文字的干扰。 */
 .VPHome::before {
   background-image: url('/bg.jpg') !important;
   background-size: cover !important;
@@ -7,123 +7,46 @@
   background-attachment: fixed !important;
 }
 
-/* 夜晚模式把背景图调暗一半（改数字即可调档：0.3 更暗 / 0.6 更亮） */
 .VPHome::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(255, 255, 255, 0.72);
   transition: background-color 0.2s ease;
 }
 
 html.dark .VPHome::after {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(12, 15, 20, 0.68);
 }
 
-/* 关掉主题自带的径向渐变遮罩（白/黑从中心盖住图） */
 .VPHome {
   background: transparent !important;
 }
 
-/* “生活随笔”专题壁纸。首页标签筛选与 /essays 下的文章页共用。 */
-body.life-essays-wallpaper {
-  background-color: transparent;
-}
-
-html:not(.dark) body.life-essays-wallpaper {
-  --description-font-color: #5f6877;
-  --badge-font-color: #374151;
-}
-
+/* 专题壁纸只出现在首页筛选列表，文章页使用纯色阅读背景。 */
 body.life-essays-wallpaper .VPHome::before {
-  background-image:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.84) 48%, rgba(255, 255, 255, 0.5) 100%),
-    url('/essays-bg.jpg') !important;
+  background-image: url('/essays-bg.jpg') !important;
   background-position: 58% center !important;
-  background-size: cover !important;
-}
-
-html:not(.dark) body.life-essays-wallpaper .header-banner h1,
-html:not(.dark) body.life-essays-wallpaper .header-banner h2 {
-  color: #1f2937;
-  text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.92),
-    0 10px 28px rgba(255, 255, 255, 0.72);
-}
-
-html:not(.dark) body.life-essays-wallpaper .blog-item,
-html:not(.dark) body.life-essays-wallpaper .blog-info .card {
-  border: 1px solid rgba(255, 255, 255, 0.78);
-  background-color: rgba(255, 255, 255, 0.94);
-  box-shadow:
-    0 14px 36px rgba(31, 41, 55, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(2px);
-}
-
-html.dark body.life-essays-wallpaper .VPHome::before {
-  background-image:
-    linear-gradient(90deg, rgba(13, 13, 16, 0.74) 0%, rgba(13, 13, 16, 0.58) 48%, rgba(13, 13, 16, 0.32) 100%),
-    url('/essays-bg.jpg') !important;
-}
-
-html.dark body.life-essays-wallpaper .VPHome::after {
-  background-color: rgba(0, 0, 0, 0.28);
-}
-
-body.life-essays-wallpaper #VPContent:not(.is-home) {
-  position: relative;
-  isolation: isolate;
-  background: transparent;
-}
-
-body.life-essays-wallpaper #VPContent:not(.is-home)::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.94) 48%, rgba(255, 255, 255, 0.82) 74%, rgba(255, 255, 255, 0.64) 100%),
-    url('/essays-bg.jpg');
-  background-position: 58% center;
-  background-size: cover;
-}
-
-html:not(.dark) body.life-essays-wallpaper #VPContent:not(.is-home) .vp-doc,
-html:not(.dark) body.life-essays-wallpaper #VPContent:not(.is-home) .meta-des,
-html:not(.dark) body.life-essays-wallpaper #VPContent:not(.is-home) .new-line-meta-des,
-html:not(.dark) body.life-essays-wallpaper #VPContent:not(.is-home) .doc-analyze {
-  color: #1f2937;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.78);
-}
-
-body.life-essays-wallpaper #VPContent:not(.is-home) > * {
-  position: relative;
-  z-index: 1;
-}
-
-html.dark body.life-essays-wallpaper #VPContent:not(.is-home)::before {
-  background-image:
-    linear-gradient(90deg, rgba(13, 13, 16, 0.9) 0%, rgba(13, 13, 16, 0.78) 48%, rgba(13, 13, 16, 0.62) 74%, rgba(13, 13, 16, 0.46) 100%),
-    url('/essays-bg.jpg');
 }
 
 @media screen and (max-width: 767px) {
-  body.life-essays-wallpaper .VPHome::before,
-  body.life-essays-wallpaper #VPContent:not(.is-home)::before {
+  body.life-essays-wallpaper .VPHome::before {
     background-position: 62% center !important;
   }
 }
 
-/* 卡片/容器的底色加浓，否则背景图糊住卡片里的文字 */
 :root {
-  --bg-gradient: 255, 255, 255, 0.88;
+  --bg-gradient: 255, 255, 255, 0.78;
+  --description-font-color: #687381;
+  --badge-font-color: #596575;
 }
+
 html.dark {
-  --bg-gradient: 20, 20, 20, 0.85;
+  --bg-gradient: 24, 26, 31, 0.88;
+  --description-font-color: #b2bac6;
+  --badge-font-color: #a4aebb;
 }
 
 /* ============================================================
@@ -254,205 +177,172 @@ html.dark .vp-doc div[class*='language-'] {
   color: var(--vp-c-brand-1);
 }
 
-/* ============================================================
-   首页文章卡片：杂志编辑风
-   信息区用 flex order 重排为「眉头(日期·分类) → 衬线大标题 →
-   描述 → 阅读全文」，封面贴边出血、左右交错。
-   .blog-item 来自主题 BlogItem.vue 的 scoped 样式，
-   与其冲突的属性需要 !important 才能稳定覆盖。
-   ============================================================ */
+/* 首页：标题、两行摘要、底部信息，保持参考站的紧凑比例。 */
+.VPHome .home {
+  max-width: 1126px;
+}
+
+.VPHome .header-banner {
+  padding: 44px 0 48px;
+}
+
+.VPHome .header-banner .name {
+  font-weight: 400;
+}
+
+.VPHome .blog-list-wrapper {
+  min-width: 0;
+}
 
 .blog-list-wrapper .blog-item {
-  margin-bottom: 30px !important;
-  padding: 28px 32px;
-  border-radius: 10px !important;
-  background-color: rgba(255, 255, 255, 0.96) !important;
-  box-shadow: 0 10px 34px rgba(31, 41, 55, 0.1) !important;
+  min-height: 144px;
+  margin-bottom: 20px;
+  padding: 16px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 5px;
+  background-color: rgba(var(--bg-gradient));
+  box-shadow: 0 2px 10px rgba(31, 41, 55, 0.055);
 }
 
 .blog-list-wrapper .blog-item:hover {
-  box-shadow: 0 18px 50px rgba(31, 41, 55, 0.16) !important;
+  box-shadow: 0 4px 16px rgba(31, 41, 55, 0.1);
+}
+
+.blog-list-wrapper .blog-item:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 3px;
 }
 
 html.dark .blog-list-wrapper .blog-item {
-  background-color: rgba(24, 24, 28, 0.94) !important;
-  box-shadow: 0 10px 34px rgba(0, 0, 0, 0.45) !important;
+  border-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
 }
 
 html.dark .blog-list-wrapper .blog-item:hover {
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.65) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
 }
 
-/* 信息区改纵排，用 order 把眉头提到标题上方，结尾补“阅读全文”引导。
-   ::after 是 flex 容器的伪元素，会作为 flex 子项参与排序。 */
+.blog-list-wrapper .blog-item .info-container {
+  flex: 1;
+  align-items: center;
+}
+
 .blog-list-wrapper .blog-item .info-part {
+  align-self: stretch;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  min-width: 0;
 }
 
-.blog-list-wrapper .blog-item .info-part .badge-list {
-  order: 1;
-  margin: 0;
-}
-
-.blog-list-wrapper .blog-item .info-part .title {
-  order: 2;
-}
-
-.blog-list-wrapper .blog-item .info-part .description {
-  order: 3;
-}
-
-.blog-list-wrapper .blog-item .info-part::after {
-  content: "阅读全文 →";
-  order: 4;
-  margin-top: 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--vp-c-brand-1);
-}
-
-/* 眉头：日期与分类做成品牌色小字，大写并拉开字距 */
-.blog-list-wrapper .blog-item .badge-list {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--vp-c-brand-1);
-}
-
-/* 第一个 span 是作者名，每篇都相同没有信息量，从眉头里去掉 */
-.blog-list-wrapper .blog-item .badge-list .split:first-child {
-  display: none;
-}
-
-.blog-list-wrapper .blog-item .badge-list .split:not(:last-child)::after {
-  width: 3px !important;
-  height: 3px !important;
-  border-radius: 50%;
-  background-color: var(--vp-c-brand-2) !important;
-  vertical-align: middle;
-  margin: 0 9px !important;
-}
-
-/* 衬线大标题 */
 .blog-list-wrapper .blog-item .title {
-  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'STZhongsong', SimSun, serif;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.45;
-  margin: 12px 0 0;
-  transition: color 0.25s ease;
+  margin: 0 0 8px;
+  font-family: var(--vp-font-family-base);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 26px;
+  overflow-wrap: anywhere;
+  transition: color 0.2s ease;
 }
 
 .blog-list-wrapper .blog-item:hover .title {
   color: var(--vp-c-brand-1);
 }
 
-/* 描述：行高放宽；scoped 固定的 48px 高度放不下衬线排版，放开为自适应 */
-.blog-list-wrapper .blog-item .description {
-  height: auto;
-  margin: 12px 0 0;
+.blog-list-wrapper .blog-item .description,
+.blog-list-wrapper .blog-item .description-html {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  height: 48px;
+  margin: 0 0 8px;
+  overflow: hidden;
+  overflow-wrap: anywhere;
   font-size: 14.5px;
-  line-height: 1.9;
+  line-height: 24px;
+  color: var(--description-font-color);
 }
 
-/* 封面贴边出血：负 margin 顶满卡片边缘，竖向拉伸至卡片全高。
-   卡片自身 overflow:hidden，圆角由卡片裁切。 */
-.blog-list-wrapper .blog-item .info-container {
-  align-items: stretch;
+.blog-list-wrapper .blog-item .badge-list {
+  margin: auto 0 0;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 22px;
+  overflow-wrap: anywhere;
+  color: var(--badge-font-color);
+}
+
+.blog-list-wrapper .blog-item .badge-list .split:not(:last-child)::after {
+  height: 9px;
+  margin: 0 9px;
+  background-color: var(--badge-font-color);
+  opacity: 0.65;
 }
 
 .blog-list-wrapper .blog-item .cover-img {
-  flex: none;
-  width: 218px;
-  height: auto;
-  margin: -28px -32px -28px 28px;
-  border-radius: 0 !important;
-  background-size: cover !important;
+  flex: 0 0 120px;
+  width: 120px;
+  height: 80px;
+  margin: 0 0 0 24px;
+  border-radius: 3px;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
-  transition: transform 0.4s ease;
 }
 
-.blog-list-wrapper .blog-item:hover .cover-img {
-  transform: scale(1.03);
+.blog-info-wrapper .card {
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 5px;
+  background-color: rgba(var(--bg-gradient));
+  box-shadow: 0 2px 10px rgba(31, 41, 55, 0.055);
 }
 
-/* 之字形排版：偶数篇封面翻到左侧，避免清一色右侧的视觉疲劳 */
-.blog-list-wrapper li:nth-child(even) .blog-item .info-container {
-  flex-direction: row-reverse;
+html.dark .blog-info-wrapper .card {
+  border-color: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
 }
 
-.blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
-  margin: -28px 28px -28px -32px;
+@media screen and (max-width: 767px) {
+  .VPHome .home {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .VPHome .header-banner {
+    padding: 28px 0 32px;
+  }
 }
 
-/* 移动端：出血改回小尺寸圆角缩略图，眉头移到卡片最上方 */
 @media screen and (max-width: 500px) {
   .blog-list-wrapper .blog-item {
-    padding: 22px 20px;
+    min-height: 0;
+    padding: 16px;
+    margin-bottom: 16px;
   }
 
-  .blog-list-wrapper .blog-item .info-container {
-    align-items: center;
+  .blog-list-wrapper .blog-item .cover-img {
+    flex-basis: 88px;
+    width: 88px;
+    height: 60px;
+    margin-left: 14px;
   }
 
-  .blog-list-wrapper .blog-item .cover-img,
-  .blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
-    width: 104px;
-    height: 70px;
-    margin: 0 0 0 14px;
-    border-radius: 8px !important;
+  .blog-list-wrapper .blog-item .badge-list {
+    font-size: 12px;
+    line-height: 20px;
   }
-
-  .blog-list-wrapper li:nth-child(even) .blog-item .cover-img {
-    margin: 0 14px 0 0;
-  }
-
-  .blog-list-wrapper .blog-item .badge-list.mobile-visible {
-    order: -1;
-    margin: 0 0 10px;
-  }
-
-  .blog-list-wrapper .blog-item .title {
-    font-size: 19px;
-    margin: 0 0 4px;
-  }
-}
-
-/* 信息图封面需要完整展示，避免 cover 只裁出中间区域。 */
-.blog-list-wrapper .blog-item .cover-img[style*="mcp_vs_skills_cartoon_infographic"] {
-  background-size: contain !important;
-  background-repeat: no-repeat;
-  background-color: #f8fbff;
-}
-
-html.dark .blog-list-wrapper .blog-item .cover-img[style*="mcp_vs_skills_cartoon_infographic"] {
-  background-color: #111827;
-}
-
-/* 首页右侧信息卡与文章卡片保持一致的圆角和描边 */
-.blog-info-wrapper .card {
-  border-radius: 12px !important;
-  border: 1px solid var(--vp-c-divider);
 }
 
 /* ============================================================
    文章页左侧“相关文章”栏美化（.recommend 来自 BlogRecommendArticle.vue，
-   默认是贴在侧栏上的裸列表，这里整体卡片化）
+   使用低对比度分隔与紧凑列表，减少对正文的干扰）
    ============================================================ */
 
 .VPSidebar .sidebar .recommend {
-  padding: 14px 12px 10px;
-  border-radius: 12px;
-  background-color: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-divider);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-}
-
-html.dark .VPSidebar .sidebar .recommend {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  padding: 8px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 /* 头部：标题加重，与列表之间用虚线分隔 */
@@ -522,4 +412,279 @@ html.dark .VPSidebar .sidebar .recommend {
   margin-top: 2px;
   font-size: 12px;
   color: var(--vp-c-text-3);
+}
+
+/* 与参考站相同的霞鹜文楷屏幕版；代码继续使用等宽字体。 */
+:root {
+  --vp-font-family-base: 'LXGW WenKai Screen', 'Kaiti SC', 'STKaiti', 'KaiTi', sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+}
+
+body {
+  font-size: 17px;
+}
+
+/* 文章正文保持纯色、适中行宽；无目录的随笔不留空白目录栏。 */
+.VPDoc {
+  background-color: var(--vp-c-bg);
+}
+
+#VPContent .VPDoc .content-container {
+  max-width: 720px;
+}
+
+.VPDoc > .container > .content {
+  min-width: 0;
+}
+
+.VPDoc:not(:has(.VPDocAsideOutline.has-outline)) > .container > .aside {
+  display: none;
+}
+
+.VPDoc:not(:has(.VPDocAsideOutline.has-outline)) > .container > .content {
+  margin: 0 auto;
+  max-width: 784px;
+}
+
+.VPDoc .vp-doc {
+  font-size: 18px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+
+.VPDoc .vp-doc h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.VPDoc .vp-doc h2 {
+  margin: 36px 0 16px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 25px;
+  line-height: 1.5;
+}
+
+.VPDoc .vp-doc h2 .header-anchor {
+  top: 0;
+}
+
+.VPDoc .vp-doc h3 {
+  margin: 28px 0 12px;
+  font-size: 21px;
+  line-height: 1.5;
+}
+
+.VPDoc .vp-doc p,
+.VPDoc .vp-doc li {
+  line-height: 1.85;
+}
+
+.VPDoc .vp-doc p {
+  margin: 20px 0;
+}
+
+.VPDoc .vp-doc li + li {
+  margin-top: 6px;
+}
+
+.VPDoc .meta-des {
+  gap: 4px 0;
+  margin: 10px 0 30px;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--vp-c-text-2);
+}
+
+.VPDoc .vp-doc :not(pre) > code {
+  font-size: 0.85em;
+}
+
+.VPDoc .vp-doc div[class*='language-'] {
+  line-height: 1.7;
+}
+
+@media screen and (max-width: 767px) {
+  .VPDoc {
+    padding: 28px 22px 64px;
+  }
+
+  .VPDoc .vp-doc {
+    font-size: 17px;
+  }
+
+  .VPDoc .vp-doc h1 {
+    font-size: 28px;
+  }
+
+  .VPDoc .vp-doc h2 {
+    font-size: 23px;
+  }
+
+  .VPDoc .meta-des {
+    margin-bottom: 24px;
+    font-size: 13px;
+  }
+
+  .VPDoc .vp-doc div[class*='language-'] {
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+
+/* ============================================================
+   导航栏/本地导航栏：半透明 + 毛玻璃，首页全屏壁纸下尤其明显
+   ============================================================ */
+:root {
+  --vp-nav-bg-color: rgba(255, 255, 255, 0.72);
+  --vp-local-nav-bg-color: rgba(255, 255, 255, 0.72);
+}
+
+html.dark {
+  --vp-nav-bg-color: rgba(22, 22, 26, 0.72);
+  --vp-local-nav-bg-color: rgba(22, 22, 26, 0.72);
+}
+
+.VPNavBar .wrapper,
+.VPLocalNav {
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+}
+
+/* ============================================================
+   全局细节：细圆角滚动条、品牌色选区、正文链接下划线生长动画
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--vp-c-divider);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--vp-c-text-3);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vp-c-divider) transparent;
+}
+
+::selection {
+  background-color: var(--vp-c-brand-soft);
+}
+
+/* 只作用于正文段落/列表/表格里的文字链接；标题锚点、按钮不受影响 */
+.VPDoc .vp-doc p a,
+.VPDoc .vp-doc li a,
+.VPDoc .vp-doc td a {
+  text-decoration: none;
+  background-image: linear-gradient(var(--vp-c-brand-1), var(--vp-c-brand-1));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 1.5px;
+  padding-bottom: 1px;
+  transition: background-size 0.3s ease, color 0.2s ease;
+}
+
+.VPDoc .vp-doc p a:hover,
+.VPDoc .vp-doc li a:hover,
+.VPDoc .vp-doc td a:hover {
+  background-size: 100% 1.5px;
+}
+
+/* ============================================================
+   正文排版精修：行内代码品牌色、引用块、表格
+   ============================================================ */
+:root {
+  --vp-code-bg: var(--vp-c-brand-soft);
+  --vp-code-color: var(--vp-c-brand-1);
+}
+
+.vp-doc :not(pre) > code {
+  border-radius: 6px;
+}
+
+.vp-doc blockquote {
+  border-left: 3px solid var(--vp-c-brand-2);
+  border-radius: 0 10px 10px 0;
+  background-color: var(--vp-c-default-soft);
+  padding: 14px 18px;
+}
+
+.vp-doc th {
+  background-color: var(--vp-c-default-soft);
+  font-weight: 600;
+}
+
+.vp-doc tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.vp-doc tbody tr:hover {
+  background-color: var(--vp-c-default-soft);
+}
+
+/* ============================================================
+   文章图片：圆角阴影 + 悬停微浮；点击放大由 medium-zoom 提供，
+   遮罩颜色跟随明/暗主题（MyLayout 里设为 var(--vp-c-bg)）
+   ============================================================ */
+.VPDoc .vp-doc img {
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(31, 41, 55, 0.12);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+html.dark .VPDoc .vp-doc img {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+}
+
+.VPDoc .vp-doc img.medium-zoom-image {
+  cursor: zoom-in;
+}
+
+.VPDoc .vp-doc img.medium-zoom-image:hover {
+  transform: scale(1.015);
+  box-shadow: 0 12px 36px rgba(31, 41, 55, 0.18);
+}
+
+html.dark .VPDoc .vp-doc img.medium-zoom-image:hover {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================================
+   首页文章卡片滚动渐入。只有 JS 探测到支持动画且用户未开启
+   “减少动态效果”时 html 才会带 .js-reveal，否则不隐藏任何内容。
+   ============================================================ */
+html.js-reveal .blog-list-wrapper .blog-item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.55s ease var(--reveal-delay, 0ms),
+    transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms),
+    box-shadow 0.3s ease;
+}
+
+html.js-reveal .blog-list-wrapper .blog-item.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media print {
+  html.js-reveal .blog-list-wrapper .blog-item {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

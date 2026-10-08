@@ -5,7 +5,8 @@ const blogTheme = await getThemeConfig({
   themeColor: 'vp-default',
   author: 'fklovely',
   friend: [],
-  darkTransition: false,
+  // 暗色切换圆形扩散过渡（View Transitions API；不支持的浏览器自动回退为直接切换）
+  darkTransition: true,
   // 文章页左侧“相关文章”栏：默认标题自带一个 emoji 图标，这里改成纯文字。
   recommend: {
     title: '相关文章'
@@ -49,12 +50,10 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', type: 'image/jpeg', href: '/avatar.jpg' }],
-    // 杂志风标题衬线字体：Noto Serif SC（思源宋体）。
-    // 走 loli.net 的 Google Fonts 国内镜像，按 unicode-range 分包按需加载，
-    // display=swap，加载失败时回退系统宋体，不阻塞渲染。
+    // 正文字体在 theme/index.ts 中按字符子集本地打包；保留代码字体。
     ['link', { rel: 'preconnect', href: 'https://fonts.loli.net' }],
     ['link', { rel: 'preconnect', href: 'https://gstatic.loli.net', crossorigin: '' }],
-    ['link', { rel: 'stylesheet', href: 'https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@600;700&display=swap' }]
+    ['link', { rel: 'stylesheet', href: 'https://fonts.loli.net/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap' }]
   ],
 
   themeConfig: {
